@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Providers } from "./providers";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const manRope = Manrope({
   variable: "--font-geist-sans",
@@ -48,12 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${manRope.variable} antialiased`}>
-        <Providers>
-          <div className="fixed top-4 right-4 z-50">
-            <ThemeToggle />
-          </div>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
