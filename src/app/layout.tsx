@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Providers } from "./providers";
 import "./globals.css";
 
 const manRope = Manrope({
@@ -44,9 +46,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${manRope.variable} antialiased bg-[#171717]`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${manRope.variable} antialiased`}>
+        <Providers>
+          <div className="fixed top-4 right-4 z-50">
+            <ThemeToggle />
+          </div>
+          {children}
+        </Providers>
       </body>
     </html>
   );
