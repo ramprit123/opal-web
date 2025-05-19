@@ -15,7 +15,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  firstName    String?
+  lastName     String?
+  emailAddress String   @unique
+  imageUrl     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Clerk specific fields
+  externalId String  @unique // Clerk user ID
+  username   String? @unique
+
+  @@index([firstName, lastName, emailAddress])
 }

@@ -15,7 +15,64 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(cuid())
+  id           String   @id @default(cuid())
+  firstName    String?
+  lastName     String?
+  emailAddress String   @unique
+  imageUrl     String?
+  studio       Media?
+  trial        Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Clerk specific fields
+  clerkId      String  @unique // Clerk user ID
+  username     String? @unique
+  mediaMediaId String?
+
+  // Relations
+  workspaces WorkSpace[]
+
+  @@index([firstName, lastName, emailAddress])
+  @@map("users")
+}
+
+enum PRESET {
+  HD
+  SD
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  camera    String?
+  mic       String?
+  screen    String?
+  preset    PRESET   @default(SD)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relations
+  User   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  @@map("media")
+}
+
+enum Type {
+  PERSONAL
+  PUBLIC
+}
+
+model WorkSpace {
+  id        String   @id @default(cuid())
+  name      String
+  type      Type     @default(PERSONAL)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@map("workspaces") 
 }
